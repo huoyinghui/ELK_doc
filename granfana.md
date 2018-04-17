@@ -35,7 +35,7 @@ services:
       # GRAFANA_PASS: AxwayPassword*
 ```
 #### 预览
-![image][https://raw.githubusercontent.com/hyhlinux/static/master/img/test_comment.jpg]
+![image](https://raw.githubusercontent.com/hyhlinux/static/master/img/test_comment.jpg)
 
 #### 当前模版样式
 ```json
