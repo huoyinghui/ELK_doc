@@ -4,6 +4,7 @@
 [geo-ip](https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-point.html)
 
 
+```bash
 
 filter {
     geoip {
@@ -19,3 +20,4 @@ filter {
           }
     }
 }
+```
