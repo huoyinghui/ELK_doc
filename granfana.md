@@ -1,10 +1,10 @@
 #### grafana 部署
 #### 参考
-```bash
+
 [export_import](http://docs.grafana.org/reference/export_import/)
 [plugins](https://grafana.com/plugins/grafana-piechart-panel)
 [dash模版](https://grafana.com/dashboards/2250)
-```
+
 ##### 1.0 获取配置
 [docker-img](https://hub.docker.com/r/grafana/grafana/)
 ```bash
