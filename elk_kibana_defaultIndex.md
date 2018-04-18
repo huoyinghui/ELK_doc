@@ -2,6 +2,7 @@
 
 [处理方法](https://discuss.elastic.co/t/forbidden-12-index-read-only-allow-delete-api/110282)
 
+[可能原因](https://www.elastic.co/guide/en/elasticsearch/reference/current/disk-allocator.html)
 
 #### 解决方法
 ```bash
