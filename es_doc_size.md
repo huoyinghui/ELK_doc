@@ -44,6 +44,21 @@ POST hockey/player/_update_by_query
 ``` 
 
 #### 全文本长度:map类型tostr
+```bash
+POST hockey/player/_update_by_query
+{
+  "script": {
+    "lang": "painless",
+    "source": """
+    Map m = new HashMap(); 
+    m.put(1, 'aa');
+    //map to str
+    String ret = "";
+    ctx._source.row = ret.length();
+    """
+  }
+}
+```
 
 #### 验证结果
 ```bash
