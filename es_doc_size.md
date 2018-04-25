@@ -58,12 +58,26 @@ POST hockey/player/_update_by_query
     """
   }
 }
+
+//update
+
+POST hockey/player/_update_by_query
+{
+  "script": {
+    "lang": "painless",
+    "source": """
+    Object o = ctx._source;
+    ctx._source.row = o.toString();
+    ctx._source.size = ctx._source.row.length();
+    """
+  }
+}
 ```
 
 #### 验证结果
 ```bash
 {
-  "took": 5,
+  "took": 3,
   "timed_out": false,
   "_shards": {
     "total": 5,
@@ -82,6 +96,7 @@ POST hockey/player/_update_by_query
         "_score": 1,
         "_source": {
           "last": "bennett",
+          "size": 118,
           "assists": [
             8,
             1,
@@ -93,7 +108,7 @@ POST hockey/player/_update_by_query
             1,
             0
           ],
-          "row": 10,
+          "row": "{last=bennett, size=10, assists=[8, 1, 0], born=1996/06/20, gp=[26, 1, 0], row=bennettsam, first=sam, goals=[5, 0, 0]}",
           "first": "sam",
           "goals": [
             5,
@@ -109,6 +124,7 @@ POST hockey/player/_update_by_query
         "_score": 1,
         "_source": {
           "last": "brodie",
+          "size": 118,
           "assists": [
             8,
             42,
@@ -120,7 +136,7 @@ POST hockey/player/_update_by_query
             82,
             82
           ],
-          "row": 8,
+          "row": "{last=brodie, size=8, assists=[8, 42, 30], born=1990/06/07, gp=[26, 82, 82], row=brodietj, first=tj, goals=[2, 14, 7]}",
           "first": "tj",
           "goals": [
             2,
@@ -136,6 +152,7 @@ POST hockey/player/_update_by_query
         "_score": 1,
         "_source": {
           "last": "backlund",
+          "size": 132,
           "assists": [
             6,
             24,
@@ -147,7 +164,7 @@ POST hockey/player/_update_by_query
             82,
             82
           ],
-          "row": 14,
+          "row": "{last=backlund, size=14, assists=[6, 24, 18], born=1989/03/17, gp=[26, 82, 82], row=backlundmikael, first=mikael, goals=[3, 15, 13]}",
           "first": "mikael",
           "goals": [
             3,
@@ -163,6 +180,7 @@ POST hockey/player/_update_by_query
         "_score": 1,
         "_source": {
           "last": "monohan",
+          "size": 127,
           "assists": [
             11,
             26,
@@ -174,7 +192,7 @@ POST hockey/player/_update_by_query
             82,
             82
           ],
-          "row": 11,
+          "row": "{last=monohan, size=11, assists=[11, 26, 13], born=1994/10/12, gp=[26, 82, 82], row=monohansean, first=sean, goals=[7, 54, 26]}",
           "first": "sean",
           "goals": [
             7,
@@ -190,6 +208,7 @@ POST hockey/player/_update_by_query
         "_score": 1,
         "_source": {
           "last": "frolik",
+          "size": 129,
           "assists": [
             8,
             23,
@@ -201,7 +220,7 @@ POST hockey/player/_update_by_query
             82,
             82
           ],
-          "row": 13,
+          "row": "{last=frolik, size=13, assists=[8, 23, 15], born=1988/02/17, gp=[26, 82, 82], row=frolikmicheal, first=micheal, goals=[4, 6, 15]}",
           "first": "micheal",
           "goals": [
             4,
@@ -217,6 +236,7 @@ POST hockey/player/_update_by_query
         "_score": 1,
         "_source": {
           "last": "wideman",
+          "size": 131,
           "assists": [
             11,
             30,
@@ -228,7 +248,7 @@ POST hockey/player/_update_by_query
             81,
             82
           ],
-          "row": 13,
+          "row": "{last=wideman, size=13, assists=[11, 30, 24], born=1983/03/20, gp=[26, 81, 82], row=widemandennis, first=dennis, goals=[0, 26, 15]}",
           "first": "dennis",
           "goals": [
             0,
@@ -244,6 +264,7 @@ POST hockey/player/_update_by_query
         "_score": 1,
         "_source": {
           "last": "gaudreau",
+          "size": 130,
           "assists": [
             17,
             46,
@@ -255,7 +276,7 @@ POST hockey/player/_update_by_query
             82,
             1
           ],
-          "row": 14,
+          "row": "{last=gaudreau, size=14, assists=[17, 46, 0], born=1993/08/13, gp=[26, 82, 1], row=gaudreaujohnny, first=johnny, goals=[9, 27, 1]}",
           "first": "johnny",
           "goals": [
             9,
@@ -271,6 +292,7 @@ POST hockey/player/_update_by_query
         "_score": 1,
         "_source": {
           "last": "jones",
+          "size": 122,
           "assists": [
             3,
             17,
@@ -282,7 +304,7 @@ POST hockey/player/_update_by_query
             45,
             34
           ],
-          "row": 10,
+          "row": "{last=jones, size=10, assists=[3, 17, 4], born=1984/08/10, gp=[26, 45, 34], row=jonesdavid, first=david, goals=[7, 19, 5]}",
           "first": "david",
           "goals": [
             7,
@@ -298,6 +320,7 @@ POST hockey/player/_update_by_query
         "_score": 1,
         "_source": {
           "last": "giordano",
+          "size": 128,
           "assists": [
             3,
             30,
@@ -309,7 +332,7 @@ POST hockey/player/_update_by_query
             60,
             63
           ],
-          "row": 12,
+          "row": "{last=giordano, size=12, assists=[3, 30, 24], born=1983/10/03, gp=[26, 60, 63], row=giordanomark, first=mark, goals=[6, 30, 15]}",
           "first": "mark",
           "goals": [
             6,
@@ -325,6 +348,7 @@ POST hockey/player/_update_by_query
         "_score": 1,
         "_source": {
           "last": "hudler",
+          "size": 125,
           "assists": [
             11,
             62,
@@ -336,7 +360,7 @@ POST hockey/player/_update_by_query
             80,
             79
           ],
-          "row": 10,
+          "row": "{last=hudler, size=10, assists=[11, 62, 42], born=1984/01/04, gp=[24, 80, 79], row=hudlerjiri, first=jiri, goals=[5, 34, 36]}",
           "first": "jiri",
           "goals": [
             5,
