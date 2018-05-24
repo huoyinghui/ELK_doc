@@ -43,8 +43,52 @@ NOTES:
 
 ##### 2.imgfit test
 ```bash
+App:
+➜  manifests git:(demo) ✗ curl -v http://localhost:9000/v2/image/test/icon.pnghyh\?w\=40\&fakeurl\=1\&type\=.webp > /dev/null
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 127.0.0.1...
+* TCP_NODELAY set
+* Connected to localhost (127.0.0.1) port 9000 (#0)
+> GET /v2/image/test/icon.pnghyh?w=40&fakeurl=1&type=.webp HTTP/1.1
+> Host: localhost:9000
+> User-Agent: curl/7.54.0
+> Accept: */*
+>
+< HTTP/1.1 200 OK
+< Etag: 86aec6a6
+< Date: Thu, 24 May 2018 08:32:57 GMT
+< Content-Length: 1578
+< Content-Type: image/webp
+<
+{ [1578 bytes data]
+100  1578  100  1578    0     0   7548      0 --:--:-- --:--:-- --:--:--  7550
+* Connection #0 to host localhost left intact
+➜  manifests git:(demo) ✗
 
+Ser: 开启代理
+➜  apk_charts git:(imgfit) kubectl get svc
+NAME                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)             AGE
+apk-downloader        ClusterIP   10.108.178.64    <none>        80/TCP              5d
+apkpure-talks         ClusterIP   10.102.251.195   <none>        80/TCP              6d
+bdeveloper            ClusterIP   10.110.231.62    <none>        4008/TCP            3d
+download-hub          ClusterIP   10.106.168.237   <none>        80/TCP              5d
+etcd-cluster          ClusterIP   None             <none>        2379/TCP,2380/TCP   28s
+etcd-cluster-client   ClusterIP   10.105.150.223   <none>        2379/TCP            28s
+imgfit                ClusterIP   10.111.162.135   <none>        9000/TCP,8001/TCP   1m
+kubernetes            ClusterIP   10.96.0.1        <none>        443/TCP             38d
+minio-oppo            ClusterIP   None             <none>        9000/TCP            3d
+wapol                 ClusterIP   10.109.246.94    <none>        80/TCP              4d
+weblate               ClusterIP   10.104.71.206    <none>        80/TCP              5d
+weblate-memcached     ClusterIP   None             <none>        11211/TCP           5d
+➜  apk_charts git:(imgfit) kubectl port-forward imgfit-1  8001:8001 9000:9000
+Forwarding from 127.0.0.1:8001 -> 8001
+Forwarding from 127.0.0.1:9000 -> 9000
 
+```
+
+#### Valuse 配置
+```bash
 #### valuese rbac 必须打开， etcd-operator 才可以工作
 ```bash
 E0524 08:25:14.106786       1 leaderelection.go:224] error retrieving resource lock default/etcd-operator: endpoints "etcd-operator" is forbidden: User "system:serviceaccount:default:imgfit-etcd-operator-etcd-operator" cannot get endpoints in the namespace "default"
