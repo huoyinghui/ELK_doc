@@ -72,3 +72,29 @@ time="2018-05-24T08:25:35Z" level=info msg="}" cluster-name=etcd-cluster pkg=clu
 time="2018-05-24T08:25:36Z" level=info msg="cluster created with seed member (etcd-cluster-0000)" cluster-name=etcd-cluster pkg=cluster
 time="2018-05-24T08:25:36Z" level=info msg="start running..." cluster-name=etcd-cluster pkg=cluster
 ```
+
+```bash
+etcd-operator:
+  # rbac:
+  #   create: false
+  cluster.enabled: true
+  customResources:
+    createEtcdClusterCRD: true
+
+  deployments:
+    # etcdOperator: false
+    backupOperator: false
+    restoreOperator: false
+  
+  etcdCluster:
+    size: 1
+    pod:
+      resources:
+        limits:
+          cpu: 100m
+          memory: 128Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      nodeSelector: {}
+```
