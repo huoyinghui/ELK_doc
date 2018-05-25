@@ -25,7 +25,7 @@ PUT /_template/my_logs
 
 ##### 修改一个已经存在的索引
 ```bash
-PUT /aegon_log-2018.05.24
+PUT /aegon_demo-2018.05.24
 {
     "settings": {
         "number_of_shards" :   1,
