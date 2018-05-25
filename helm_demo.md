@@ -174,7 +174,9 @@ Use "helm [command] --help" for more information about a command
 
 
 ##### helm 使用流程
+
 1.尽可能使用变量，动态配置.(比如依赖部署， todo)
+
 2.尽可能固定参数，应为每个pod都独立运行ip不同，所以httport/grpcport 应当固定. (http://sername:port 对其他调用者友好)
 
 
@@ -239,7 +241,9 @@ affinity: {}
 path:./templates/configmap.yaml
 
 1.抽象app.yml 中可配置参数, 固定端口等对其他服务有影响的变量
+
 2.如果当前应用的配置名字使用了"_", 在Valuse定义变量，建议使用驼峰命名, 以免造成取值困难，如etcd-operator。
+
 (个人感觉每个chart项目名称应该使用驼峰密码，这样被当作依赖时，可以直接使用。
 命名中出现"-", go tmpl 会出现解析问题, 需要使用index 的方式获取变量)
 
@@ -260,7 +264,8 @@ data:
     app_name: {{ $fullName }}
     grpc_listen: :5004
     cache_size: {{ .Values.cacheSize }}
-    host: {{ .Values.host }}
+    # host: {{ .Values.host }} 不能解析为数据，解析的是go 对象
+{{ toYaml .Values.host | indent 4 }}
     health_check_timeout: 60s
     health_scheme: http
     health_view: /health
@@ -305,35 +310,66 @@ host:
   - replicate: 1
     hostname: d-01.download.com
 ```
+[helm 模版语言](https://www.kubernetes.org.cn/3887.html)
+Valuse: host 更新为变量
+```bash
+host: 
+  host:
+  - name: OHV
+    tags:
+    - default
+    host_conf:
+    - replicate: 10
+      hostname: d-01.download.com
+    - replicate: 10
+      hostname: d-02.download.com
+    - replicate: 10
+      hostname: d-03.download.com
+    - replicate: 10
+      hostname: d-04.download.com
+    - replicate: 10
+      hostname: d-05.download.com
+    - replicate: 10
+      hostname: d-06.download.com
+  - name: OHV2
+    tags:
+    - US
+    host_conf:
+    - replicate: 1
+```
 
 
 ###### 2.4 helm 项目deployment/statefulset
 1.configmap checksum 
+
 2.volumes: configmap 卷
+
 3.containers: 
-  3.1 ports: 程序需要暴漏的端口
-  3.2 volumeMounts: 
+
+3.1 ports: 程序需要暴漏的端口
+
+3.2 volumeMounts: 
       把configmap 卷挂载到容器
 ```bash
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ template "dev-api.fullname" . }}
+  name: {{ template "fs-router.fullname" . }}
   labels:
-    app: {{ template "dev-api.name" . }}
-    chart: {{ template "dev-api.chart" . }}
+    app: {{ template "fs-router.name" . }}
+    chart: {{ template "fs-router.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "dev-api.name" . }}
+      app: {{ template "fs-router.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "dev-api.name" . }}
+        app: {{ template "fs-router.name" . }}
         release: {{ .Release.Name }}
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
@@ -341,7 +377,7 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: {{ template "dev-api.fullname" . }}-config
+            name: {{ template "fs-router.fullname" . }}-config
             items:
             - key: app.yml
               path: app.yml
